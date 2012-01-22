@@ -1,0 +1,5 @@
+A visualizer for Blueprints graphs
+
+To set up
+
+gradle eclipse or gradle idea
