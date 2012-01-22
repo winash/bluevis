@@ -8,7 +8,7 @@ import com.tinkerpop.blueprints.pgm.Graph
 
 /**
  * author: ashwin
- * Date: 9/20/11
+ * Date: 1/20/12
  */
 class ForceDirectedLayout extends PApplet {
 
