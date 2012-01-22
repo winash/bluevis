@@ -4,7 +4,7 @@ import com.tinkerpop.blueprints.pgm.Vertex
 
 /**
  * author: ashwin
- * Date: 9/20/11
+ * Date: 1/20/12
  */
 class VNode {
 
