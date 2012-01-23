@@ -1,4 +1,4 @@
-package visualizer
+package visualizer.force
 
 import com.tinkerpop.blueprints.pgm.Edge
 

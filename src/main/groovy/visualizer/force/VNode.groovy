@@ -1,6 +1,7 @@
-package visualizer
+package visualizer.force
 
 import com.tinkerpop.blueprints.pgm.Vertex
+import common.Point
 
 /**
  * author: ashwin

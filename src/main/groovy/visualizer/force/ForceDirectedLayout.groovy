@@ -1,4 +1,4 @@
-package visualizer
+package visualizer.force
 
 
 import com.tinkerpop.blueprints.pgm.Edge
@@ -57,8 +57,8 @@ class ForceDirectedLayout extends PApplet {
 
                     u = iNode
                     def rsq = ((vNode.pos.x - u.pos.x) * (vNode.pos.x - u.pos.x) + (vNode.pos.y - u.pos.y) * (vNode.pos.y - u.pos.y))
-                    vNode.netForce.x += 200 * (vNode.pos.x - u.pos.x) / rsq
-                    vNode.netForce.y += 200 * (vNode.pos.y - u.pos.y) / rsq
+                    vNode.netForce.x += 300 * (vNode.pos.x - u.pos.x) / rsq
+                    vNode.netForce.y += 300 * (vNode.pos.y - u.pos.y) / rsq
                 }
 
 

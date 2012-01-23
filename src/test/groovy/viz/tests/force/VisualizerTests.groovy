@@ -1,10 +1,10 @@
-package viz.tests
+package viz.tests.force
 
 import org.junit.After
 import org.junit.Before
 import com.tinkerpop.blueprints.pgm.impls.tg.TinkerGraph
 import com.tinkerpop.blueprints.pgm.util.graphml.GraphMLReader
-import visualizer.ForceDirectedLayout
+import visualizer.force.ForceDirectedLayout
 import org.junit.Test
 import processing.core.PApplet
 import com.tinkerpop.blueprints.pgm.impls.tg.TinkerGraphFactory
@@ -29,9 +29,9 @@ class VisualizerTests {
     @Test
     public void testVisualizingNodes() {
         reader.inputGraph(new FileInputStream(new File("testdata/graph1.graphml")))
-        visualizer = new ForceDirectedLayout(g: graph,nodeLabel: "name")
+        visualizer = new ForceDirectedLayout(g: graph, nodeLabel: "name")
         new DisplayFrame(visualizer).setVisible(true)
-        while (1){
+        while (1) {
             ;
         }
     }
@@ -45,7 +45,7 @@ class VisualizerTests {
     }
 
     public class DisplayFrame extends javax.swing.JFrame {
-        public DisplayFrame(PApplet applet){
+        public DisplayFrame(PApplet applet) {
             this.setSize(1024, 768)//The window Dimensions
             setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE)
             javax.swing.JPanel panel = new javax.swing.JPanel()
