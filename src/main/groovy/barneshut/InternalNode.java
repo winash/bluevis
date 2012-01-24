@@ -12,13 +12,8 @@ public class InternalNode extends BHNode {
 
     private Point centerOfMass;
 
-    public double getTotalMass() {
-        double total = 0;
-        for (BHNode node : externalNodes) {
-            total += node.getMass();
-        }
-        return total;
-
+    public void setCenterOfMass(Point centerOfMass) {
+        this.centerOfMass = centerOfMass;
     }
 
     public BHNode[] getExternalNodes() {
@@ -34,4 +29,6 @@ public class InternalNode extends BHNode {
     public boolean isInternalNode() {
         return true;
     }
+
+
 }

@@ -9,8 +9,13 @@ import common.Point;
 public abstract class BHNode {
 
 
-    private double mass;
-    private InternalNode parent;
+    protected double mass;
+
+    public void setMass(double mass) {
+        this.mass = mass;
+    }
+
+    protected InternalNode parent;
 
     public double getMass() {
         return mass;

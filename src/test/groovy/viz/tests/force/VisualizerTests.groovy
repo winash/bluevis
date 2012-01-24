@@ -31,6 +31,7 @@ class VisualizerTests {
         reader.inputGraph(new FileInputStream(new File("testdata/graph1.graphml")))
         visualizer = new ForceDirectedLayout(g: graph, nodeLabel: "name")
         new DisplayFrame(visualizer).setVisible(true)
+        def a = [] as List
         while (1) {
             ;
         }
@@ -55,8 +56,13 @@ class VisualizerTests {
             this.add(panel)
             sketch.init()
             this.setVisible(true)
+
         }
     }
+
+
+
+
 
 
 }

@@ -14,7 +14,13 @@ public class ExternalNode extends BHNode {
     private Point location;
 
     private Point netForce;
+
     private int quad;
+
+    public ExternalNode() {
+        this.mass = 1.0d;
+    }
+
 
     public void setLocation(Point location) {
         this.location = location;
