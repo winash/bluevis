@@ -13,20 +13,23 @@ public class BHTree {
     private double maxX;
     private double maxY;
 
-    public BHTree(double maxX, double maxY) {
-        this.maxX = maxX;
-        this.maxY = maxY;
+    private static final double THETA = 0.5d;
+
+    public BHTree(double max) {
+        this.maxX = max;
+        this.maxY = max;
     }
 
-    private BHNode root;
+    private InternalNode root;
 
     public void insert(List<ExternalNode> externalNodeList) {
-        for (ExternalNode externalNode : externalNodeList) {
-            if (null == root)
+        for (ExternalNode node : externalNodeList) {
+            if (null == root) {
                 root = new InternalNode();
-            final Point point = randomLoc();
+                root.setWidth(maxX);
+            }
+            final Point point = randomLoc(maxX);
             final int quad = randomQuadrant();
-            final ExternalNode node = new ExternalNode();
             node.setLocation(point);
             node.setQuad(quad);
             doInsert(root, node);
@@ -63,7 +66,6 @@ public class BHTree {
     }
 
 
-
     private void doInsert(BHNode inNode, ExternalNode node) {
         InternalNode temp = (InternalNode) inNode;
         final int quad = node.getQuad();
@@ -71,11 +73,12 @@ public class BHTree {
         if (null != n) {
             // do an insert - check if insert position has an internal node
             if (n.isInternalNode()) {
-                final InternalNode internalNode = (InternalNode) n;
                 doInsert(n, node);
             } else {
                 final ExternalNode externalNode = (ExternalNode) n;
                 final InternalNode subdivided = subdivide(externalNode);
+                reassignLoc(subdivided.getWidth(), externalNode);
+                reassignLoc(subdivided.getWidth(), node);
                 doInsert(subdivided, externalNode);
                 node.setQuad(nextAvailableQuad(node.getQuad()));
                 doInsert(subdivided, node);
@@ -88,23 +91,47 @@ public class BHTree {
 
     }
 
+    private void reassignLoc(double width, ExternalNode node) {
+        final Point point = randomLoc(width);
+        node.setLocation(point);
+
+    }
+
     private InternalNode subdivide(ExternalNode externalNode) {
         final InternalNode internalNode = new InternalNode();
         final InternalNode parent = externalNode.getParent();
+        internalNode.setWidth(parent.getWidth() / 2);
         parent.getExternalNodes()[externalNode.getQuad()] = internalNode;
         return internalNode;
 
     }
 
 
-    private Point randomLoc() {
-        return new Point(Math.random() * maxX, Math.random() * maxY);
+    private Point randomLoc(double size) {
+        return new Point(Math.random() * size, Math.random() * size);
     }
 
     private int nextAvailableQuad(int num) {
         if (num == 3)
             return 0;
         else return num + 1;
+
+
+    }
+
+    public void getForce(ExternalNode externalNode) {
+        getForce(root, externalNode);
+    }
+
+    private void getForce(InternalNode root, ExternalNode externalNode) {
+        // since root is internal , calculate s/d and compare with theta
+        final float dx = root.getCenterOfMass().getX() - externalNode.getLocation().getX();
+        final float dy = root.getCenterOfMass().getY() - externalNode.getLocation().getY();
+        final double d = Math.sqrt(dx * dx + dy * dy);
+        final double s = root.getWidth();
+        if (s / d > THETA) {
+            //calculate force and add to node's net force
+        }
 
 
     }

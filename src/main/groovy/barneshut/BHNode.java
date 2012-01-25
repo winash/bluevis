@@ -30,4 +30,6 @@ public abstract class BHNode {
     }
 
     public abstract boolean isInternalNode();
+
+
 }

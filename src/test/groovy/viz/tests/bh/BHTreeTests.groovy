@@ -16,7 +16,7 @@ class BHTreeTests {
 
     @Before
     public void setUp() {
-        tree = new BHTree(1027, 768)
+        tree = new BHTree(1024)
 
     }
 

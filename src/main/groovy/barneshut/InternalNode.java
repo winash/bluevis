@@ -12,6 +12,8 @@ public class InternalNode extends BHNode {
 
     private Point centerOfMass;
 
+    private double width;
+
     public void setCenterOfMass(Point centerOfMass) {
         this.centerOfMass = centerOfMass;
     }
@@ -25,10 +27,17 @@ public class InternalNode extends BHNode {
         return centerOfMass;
     }
 
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
     @Override
     public boolean isInternalNode() {
         return true;
     }
 
 
+    public double getWidth() {
+        return width;
+    }
 }
