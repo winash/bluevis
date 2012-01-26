@@ -2,6 +2,7 @@ package barneshut;
 
 import common.Point;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -10,34 +11,58 @@ import java.util.List;
  */
 public class BHTree {
 
+    private static final double MINIMUM_MASS = 1e1;
+    private static final double MAXIMUM_MASS = 1e3;
+    private static final double G = 6.673e-15;
+
     private double maxX;
     private double maxY;
 
-    private static final double THETA = 0.5d;
+    public Collection<ExternalNode> getExternalNodeList() {
+        return externalNodeList;
+    }
 
-    public BHTree(double max) {
-        this.maxX = max;
-        this.maxY = max;
+    private Collection<ExternalNode> externalNodeList;
+
+    private static final double THETA = 0.8d;
+
+    public BHTree(double maxX, double maxY, Collection<ExternalNode> externalNodeList) {
+        this.maxX = maxX;
+        this.maxY = maxY;
+        this.externalNodeList = externalNodeList;
+        buildTree(true);
     }
 
     private InternalNode root;
 
-    public void insert(List<ExternalNode> externalNodeList) {
+    public void buildTree(boolean randomized) {
+        root = null;
         for (ExternalNode node : externalNodeList) {
             if (null == root) {
                 root = new InternalNode();
-                root.setWidth(maxX);
+                root.setBox(new Box(0.0, 0.0, maxX, maxY));
             }
-            final Point point = randomLoc(maxX);
-            final int quad = randomQuadrant();
-            node.setLocation(point);
-            node.setQuad(quad);
+            if (randomized) {
+                final Point point = randomLoc(maxX, maxY);
+                node.setMass(Math.random() * (MAXIMUM_MASS - MINIMUM_MASS) + MINIMUM_MASS);
+                node.setLocation(point);
+                node.setAcceleration(new Point(0, 0));
+                node.setVelocity(randomVelocity());
+            }
+            clearNode(node);
             doInsert(root, node);
         }
 
         calculateMetrics(root);
-        System.out.println("blah");
 
+    }
+
+    private void clearNode(ExternalNode node) {
+        node.setParent(null);
+    }
+
+    private Point randomVelocity() {
+        return new Point(Math.random() * 10 - 5, Math.random() * 10 - 5);
     }
 
     private void calculateMetrics(BHNode node) {
@@ -67,20 +92,20 @@ public class BHTree {
 
 
     private void doInsert(BHNode inNode, ExternalNode node) {
+        if (hasLeftArea(node))
+            return;
         InternalNode temp = (InternalNode) inNode;
-        final int quad = node.getQuad();
+        final int quad = getQuadrant(node, temp.getBox());
         BHNode n = temp.getExternalNodes()[quad];
         if (null != n) {
             // do an insert - check if insert position has an internal node
             if (n.isInternalNode()) {
                 doInsert(n, node);
             } else {
+
                 final ExternalNode externalNode = (ExternalNode) n;
                 final InternalNode subdivided = subdivide(externalNode);
-                reassignLoc(subdivided.getWidth(), externalNode);
-                reassignLoc(subdivided.getWidth(), node);
                 doInsert(subdivided, externalNode);
-                node.setQuad(nextAvailableQuad(node.getQuad()));
                 doInsert(subdivided, node);
             }
         } else {
@@ -91,54 +116,163 @@ public class BHTree {
 
     }
 
-    private void reassignLoc(double width, ExternalNode node) {
-        final Point point = randomLoc(width);
-        node.setLocation(point);
-
+    private boolean hasLeftArea(ExternalNode node) {
+        final Box box = root.getBox();
+        final Point location = node.getLocation();
+        if (location.getX() >= box.getX1() && location.getX() <= box.getX2() && location.getY() >= box.getY1() && location.getY() <= box.getY2()) {
+            return false;
+        }
+        return true;
     }
 
     private InternalNode subdivide(ExternalNode externalNode) {
         final InternalNode internalNode = new InternalNode();
         final InternalNode parent = externalNode.getParent();
-        internalNode.setWidth(parent.getWidth() / 2);
-        parent.getExternalNodes()[externalNode.getQuad()] = internalNode;
+        final Box box = parent.getBox();
+        final int quadrant = getQuadrant(externalNode, box);
+        //for this quadrant split parents box
+        Box dividedBox = getBoxFor(box, quadrant);
+
+        internalNode.setBox(dividedBox);
+
+        parent.getExternalNodes()[quadrant] = internalNode;
         return internalNode;
 
     }
 
+    private Box getBoxFor(Box box, int quadrant) {
+        switch (quadrant) {
+            case 0: {
+                return new Box(box.getX1(), box.getY1(), (box.getX1() + box.getX2()) / 2, (box.getY1() + box.getY2()) / 2);
+            }
+            case 1: {
+                return new Box(box.getX1(), (box.getY1() + box.getY2()) / 2, (box.getX1() + box.getX2()) / 2, box.getY2());
+            }
+            case 2: {
+                return new Box((box.getX1() + box.getX2()) / 2, box.getY1(), box.getX2(), (box.getY1() + box.getY2()) / 2);
 
-    private Point randomLoc(double size) {
-        return new Point(Math.random() * size, Math.random() * size);
+            }
+            case 3: {
+                return new Box((box.getX1() + box.getX2()) / 2, (box.getY1() + box.getY2()) / 2, box.getX2(), box.getY2());
+
+            }
+
+        }
+        return null;
     }
 
-    private int nextAvailableQuad(int num) {
-        if (num == 3)
-            return 0;
-        else return num + 1;
-
-
+    private int getQuadrant(ExternalNode externalNode, Box box) {
+        final double mx = (box.getX1() + box.getX2()) / 2;
+        final double my = (box.getY1() + box.getY2()) / 2;
+        if (externalNode.getLocation().getX() < mx) {
+            if (externalNode.getLocation().getY() < my) {
+                return 0;
+            } else {
+                return 1;
+            }
+        } else {
+            if (externalNode.getLocation().getY() < my) {
+                return 2;
+            } else {
+                return 3;
+            }
+        }
     }
 
-    public void getForce(ExternalNode externalNode) {
-        getForce(root, externalNode);
+
+    private Point randomLoc(double maxX, double maxY) {
+        return new Point(Math.random() * maxX, Math.random() * maxY);
     }
 
-    private void getForce(InternalNode root, ExternalNode externalNode) {
-        // since root is internal , calculate s/d and compare with theta
-        final float dx = root.getCenterOfMass().getX() - externalNode.getLocation().getX();
-        final float dy = root.getCenterOfMass().getY() - externalNode.getLocation().getY();
-        final double d = Math.sqrt(dx * dx + dy * dy);
-        final double s = root.getWidth();
-        if (s / d > THETA) {
-            //calculate force and add to node's net force
+    public void updateForces() {
+        buildTree(false);
+        for (ExternalNode externalNode : externalNodeList) {
+            getForce(root, externalNode);
+        }
+    }
+
+    private void getForce(BHNode root, ExternalNode externalNode) {
+        if (root.isInternalNode()) {
+            final InternalNode internalNode = (InternalNode) root;
+            // calculate s/d and compare with theta
+            final double d = getDistanceBetween(externalNode, internalNode);
+            final double s = Math.min(internalNode.getBox().getX2() - internalNode.getBox().getX1(), internalNode.getBox().getY2() - internalNode.getBox().getY1());
+            if (s / d < THETA) {
+                final Point force = getForceAsPoint(externalNode, internalNode);
+                updateAcceleration(force, externalNode);
+            } else {
+                //recursive call
+                final BHNode[] externalNodes = internalNode.getExternalNodes();
+                for (BHNode node : externalNodes) {
+                    if (null != node) {
+                        getForce(node, externalNode);
+                    }
+
+                }
+
+            }
+        } else {
+            final ExternalNode node = (ExternalNode) root;
+            if (!node.equals(externalNode)) {
+                final Point force = getForceAsPoint(node, externalNode);
+                updateAcceleration(force, externalNode);
+            }
         }
 
 
     }
 
+    private Point getForceAsPoint(ExternalNode node, ExternalNode externalNode) {
+        final double dx = externalNode.getLocation().getX() - node.getLocation().getX();
+        final double dy = externalNode.getLocation().getY() - node.getLocation().getY();
+        final double distance = getDistanceBetween(node, externalNode);
+        final double force = G * externalNode.getMass() * node.getMass() / Math.pow(distance, 2);
+        return new Point(force * dx / distance, force * dy / distance);
 
-    private int randomQuadrant() {
-        return (int) (Math.random() * 4);
+
+    }
+
+    private double getDistanceBetween(ExternalNode node, ExternalNode externalNode) {
+        final double dx = node.getLocation().getX() - externalNode.getLocation().getX();
+        final double dy = node.getLocation().getY() - externalNode.getLocation().getY();
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    private void updateAcceleration(Point force, ExternalNode externalNode) {
+        final double accX = force.getX() / externalNode.getMass();
+        final double accY = force.getY() / externalNode.getMass();
+        externalNode.setAcceleration(new Point(accX, accY));
+
+    }
+
+    private Point getForceAsPoint(ExternalNode externalNode, InternalNode internalNode) {
+        final double dx = internalNode.getCenterOfMass().getX() - externalNode.getLocation().getX();
+        final double dy = internalNode.getCenterOfMass().getY() - externalNode.getLocation().getY();
+        final double distance = getDistanceBetween(externalNode, internalNode);
+        final double force = G * externalNode.getMass() * internalNode.getMass() / Math.pow(distance, 2);
+        return new Point(force * dx / distance, force * dy / distance);
+
+    }
+
+    private double getDistanceBetween(ExternalNode externalNode, InternalNode internalNode) {
+        final double dx = internalNode.getCenterOfMass().getX() - externalNode.getLocation().getX();
+        final double dy = internalNode.getCenterOfMass().getY() - externalNode.getLocation().getY();
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+
+    public void updateVelocities(double step) {
+        for (ExternalNode externalNode : externalNodeList) {
+            externalNode.getVelocity().setX(externalNode.getVelocity().getX() + (externalNode.getAcceleration().getX() * step));
+            externalNode.getVelocity().setY(externalNode.getVelocity().getY() + (externalNode.getAcceleration().getY() * step));
+        }
+    }
+
+    public void updatePositions(double step) {
+        for (ExternalNode externalNode : externalNodeList) {
+            externalNode.getLocation().setX(externalNode.getLocation().getX() + (externalNode.getVelocity().getX() * step));
+            externalNode.getLocation().setY(externalNode.getLocation().getY() + (externalNode.getVelocity().getY() * step));
+        }
     }
 
 

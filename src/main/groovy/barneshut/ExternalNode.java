@@ -15,7 +15,35 @@ public class ExternalNode extends BHNode {
 
     private Point netForce;
 
+    private Point acceleration;
+
+    private Point velocity;
+
     private int quad;
+
+    public void setUnderlying(Vertex underlying) {
+        this.underlying = underlying;
+    }
+
+    public Vertex getUnderlying() {
+        return underlying;
+    }
+
+    public Point getAcceleration() {
+        return acceleration;
+    }
+
+    public void setAcceleration(Point acceleration) {
+        this.acceleration = acceleration;
+    }
+
+    public Point getVelocity() {
+        return velocity;
+    }
+
+    public void setVelocity(Point velocity) {
+        this.velocity = velocity;
+    }
 
     public ExternalNode() {
         this.mass = 1.0d;
@@ -49,5 +77,22 @@ public class ExternalNode extends BHNode {
     @Override
     public boolean isInternalNode() {
         return false;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ExternalNode that = (ExternalNode) o;
+
+        if (location != null ? !location.equals(that.location) : that.location != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return location != null ? location.hashCode() : 0;
     }
 }

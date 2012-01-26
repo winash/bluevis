@@ -12,13 +12,6 @@ import barneshut.ExternalNode
  */
 class BHTreeTests {
 
-    BHTree tree
-
-    @Before
-    public void setUp() {
-        tree = new BHTree(1024)
-
-    }
 
     @Test
     public void testInserts() {
@@ -29,12 +22,9 @@ class BHTreeTests {
 
         }
 
-        tree.insert(nodes)
+        new BHTree(1024, 768, nodes)
 
     }
 
 
-    @After
-    public void tearDown() {
-    }
 }
