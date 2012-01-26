@@ -1,4 +1,4 @@
-A visualizer for Blueprints graphs
+A visualizer for Blueprints graphs, contains a force algorithm and a barnes-hut simulation
 
 To set up
 
