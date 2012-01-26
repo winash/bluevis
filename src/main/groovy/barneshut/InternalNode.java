@@ -2,6 +2,7 @@ package barneshut;
 
 import common.Point;
 
+
 /**
  * @author Ashwin Rajeev
  * @since 1/23/12
@@ -10,15 +11,18 @@ public class InternalNode extends BHNode {
 
     BHNode[] externalNodes = new BHNode[4];
 
+    private Box box;
+
     private Point centerOfMass;
 
-    public double getTotalMass() {
-        double total = 0;
-        for (BHNode node : externalNodes) {
-            total += node.getMass();
-        }
-        return total;
+    private double width;
 
+    public void setBox(Box box) {
+        this.box = box;
+    }
+
+    public void setCenterOfMass(Point centerOfMass) {
+        this.centerOfMass = centerOfMass;
     }
 
     public BHNode[] getExternalNodes() {
@@ -30,8 +34,21 @@ public class InternalNode extends BHNode {
         return centerOfMass;
     }
 
+    public void setWidth(double width) {
+        this.width = width;
+    }
+
     @Override
     public boolean isInternalNode() {
         return true;
+    }
+
+
+    public double getWidth() {
+        return width;
+    }
+
+    public Box getBox() {
+        return box;
     }
 }

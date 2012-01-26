@@ -1,5 +1,7 @@
 A visualizer for Blueprints graphs using processing
 
+You need gradle to build this
+
 To set up your IDE
 
 run -- 

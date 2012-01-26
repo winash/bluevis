@@ -1,22 +1,23 @@
-package viz.tests.force
+package viz.tests.bh
 
+import com.tinkerpop.blueprints.pgm.impls.tg.TinkerGraph
+import com.tinkerpop.blueprints.pgm.impls.tg.TinkerGraphFactory
+import com.tinkerpop.blueprints.pgm.util.graphml.GraphMLReader
 import org.junit.After
 import org.junit.Before
-import com.tinkerpop.blueprints.pgm.impls.tg.TinkerGraph
-import com.tinkerpop.blueprints.pgm.util.graphml.GraphMLReader
-import visualizer.force.ForceDirectedLayout
 import org.junit.Test
 import processing.core.PApplet
-import com.tinkerpop.blueprints.pgm.impls.tg.TinkerGraphFactory
+import visualizer.force.ForceDirectedLayout
+import barneshut.BHSimulation
 
 /**
  * @author Ashwin Rajeev
  * @since 1/22/12
  */
-class VisualizerTests {
+class BHVisualizerTests {
 
     TinkerGraph graph
-    ForceDirectedLayout visualizer
+    BHSimulation bhSimulation
     GraphMLReader reader
 
     @Before
@@ -28,10 +29,10 @@ class VisualizerTests {
 
     @Test
     public void testVisualizingNodes() {
-        reader.inputGraph(new FileInputStream(new File("testdata/graph1.graphml")))
-        visualizer = new ForceDirectedLayout(g: graph, nodeLabel: "name")
-        new DisplayFrame(visualizer).setVisible(true)
-        def a = [] as List
+        reader.inputGraph(new FileInputStream(new File("testdata/graph2.graphml")))
+        bhSimulation = new BHSimulation(1366, 768)
+        bhSimulation.g = graph
+        new DisplayFrame(bhSimulation).setVisible(true)
         while (1) {
             ;
         }
@@ -47,10 +48,10 @@ class VisualizerTests {
 
     public class DisplayFrame extends javax.swing.JFrame {
         public DisplayFrame(PApplet applet) {
-            this.setSize(1024, 768)//The window Dimensions
+            this.setSize(1366, 768)//The window Dimensions
             setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE)
             javax.swing.JPanel panel = new javax.swing.JPanel()
-            panel.setBounds(20, 20, 600, 600)
+            panel.setBounds(0, 0, 1366, 768)
             PApplet sketch = applet
             panel.add(sketch)
             this.add(panel)
@@ -59,10 +60,6 @@ class VisualizerTests {
 
         }
     }
-
-
-
-
 
 
 }

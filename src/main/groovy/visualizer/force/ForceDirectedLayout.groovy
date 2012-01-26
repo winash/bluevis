@@ -5,6 +5,7 @@ import com.tinkerpop.blueprints.pgm.Edge
 import com.tinkerpop.blueprints.pgm.Vertex
 import processing.core.PApplet
 import com.tinkerpop.blueprints.pgm.Graph
+import common.VGraph
 
 /**
  * author: ashwin
@@ -97,9 +98,9 @@ class ForceDirectedLayout extends PApplet {
             println "----------------------"
             stroke(1)
             fill(1)
-            ellipse(v.pos.x, v.pos.y, 20, 20);
+            ellipse(v.pos.x.toFloat(), v.pos.y.toFloat(), 20, 20);
             fill(250)
-            text(v.underlying.getProperty(nodeLabel), v.pos.x, v.pos.y)
+            text(v.underlying.getProperty(nodeLabel), v.pos.x.toFloat(), v.pos.y.toFloat())
             def inEdges = v.underlying.getInEdges([] as String[])
             inEdges.each { Edge e ->
                 def vertex = e.outVertex
@@ -107,8 +108,8 @@ class ForceDirectedLayout extends PApplet {
                 def x = get.pos.x
                 def y = get.pos.y
                 stroke(126)
-                line(x, y, v.pos.x, v.pos.y)
-                writeText(x, y, v.pos.x, v.pos.y, e.label)
+                line(x.toFloat(), y.toFloat(), v.pos.x.toFloat(), v.pos.y.toFloat())
+                writeText(x.toFloat(), y.toFloat(), v.pos.x.toFloat(), v.pos.y.toFloat(), e.label)
 
 
             }
@@ -120,8 +121,8 @@ class ForceDirectedLayout extends PApplet {
                 def x = get.pos.x
                 def y = get.pos.y
                 stroke(255)
-                line(x, y, v.pos.x, v.pos.y)
-                writeText(x, y, v.pos.x, v.pos.y, e.label)
+                line(x.toFloat(), y.toFloat(), v.pos.x.toFloat(), v.pos.y.toFloat())
+                writeText(x.toFloat(), y.toFloat(), v.pos.x.toFloat(), v.pos.y.toFloat(), e.label)
 
 
             }
