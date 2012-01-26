@@ -1,5 +1,6 @@
-A visualizer for Blueprints graphs
+A visualizer for Blueprints graphs using processing
 
-To set up
+To set up your IDE
 
-gradle eclipse or gradle idea
+run -- 
+gradle eclipse or gradle idea(create a iml file first)
