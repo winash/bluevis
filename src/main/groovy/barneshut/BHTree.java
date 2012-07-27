@@ -12,8 +12,8 @@ import java.util.List;
 public class BHTree {
 
     private static final double MINIMUM_MASS = 1e1;
-    private static final double MAXIMUM_MASS = 1e3;
-    private static final double G = 6.673e-15;
+    private static final double MAXIMUM_MASS = 1e2;
+    private static final double G = 6.673e-25;
 
     private double maxX;
     private double maxY;

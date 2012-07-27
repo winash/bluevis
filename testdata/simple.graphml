@@ -1,104 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<graphml xmlns="http://graphml.graphdrawing.org/xmlns"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns
-     http://graphml.graphdrawing.org/xmlns/1.0/graphml.xsd">
-    <graph id="G" edgedefault="undirected">
-        <node id="n0"/>
-        <node id="n1"/>
-        <node id="n2"/>
-        <node id="n3"/>
-        <node id="n4"/>
-        <node id="n5"/>
-        <node id="n6"/>
-        <node id="n7"/>
-        <node id="n8"/>
-        <node id="n9"/>
-        <node id="n10"/>
-        <node id="r0"/>
-        <node id="r1"/>
-        <node id="r2"/>
-        <node id="r3"/>
-        <node id="r4"/>
-        <node id="r5"/>
-        <node id="r6"/>
-        <node id="r7"/>
-        <node id="r8"/>
-        <node id="r9"/>
-        <node id="r10"/>
-        <node id="f0"/>
-        <node id="f1"/>
-        <node id="f2"/>
-        <node id="f3"/>
-        <node id="f4"/>
-        <node id="f5"/>
-        <node id="f6"/>
-        <node id="f7"/>
-        <node id="f8"/>
-        <node id="f9"/>
-        <node id="f10"/>
-        <node id="k0"/>
-        <node id="k1"/>
-        <node id="k2"/>
-        <node id="k3"/>
-        <node id="k4"/>
-        <node id="k5"/>
-        <node id="k6"/>
-        <node id="k7"/>
-        <node id="k8"/>
-        <node id="k9"/>
-        <node id="k10"/>
-        <edge source="n0" target="n2"/>
-        <edge source="n1" target="n2"/>
-        <edge source="n2" target="n3"/>
-        <edge source="n3" target="n5"/>
-        <edge source="n3" target="n4"/>
-        <edge source="n4" target="n6"/>
-        <edge source="n6" target="n5"/>
-        <edge source="n5" target="n7"/>
-        <edge source="n6" target="n8"/>
-        <edge source="n8" target="n7"/>
-        <edge source="n8" target="n9"/>
-        <edge source="n8" target="n10"/>
-
-        <edge source="r0" target="r2"/>
-        <edge source="r1" target="r2"/>
-        <edge source="r2" target="r3"/>
-        <edge source="r3" target="r5"/>
-        <edge source="r3" target="r4"/>
-        <edge source="r4" target="r6"/>
-        <edge source="r6" target="r5"/>
-        <edge source="r5" target="r7"/>
-        <edge source="r6" target="r8"/>
-        <edge source="r8" target="r7"/>
-        <edge source="r8" target="r9"/>
-        <edge source="r8" target="r10"/>
-
-        <edge source="f0" target="r2"/>
-        <edge source="f1" target="r2"/>
-        <edge source="f2" target="r3"/>
-        <edge source="f3" target="r5"/>
-        <edge source="f3" target="r4"/>
-        <edge source="f4" target="r6"/>
-        <edge source="f6" target="r5"/>
-        <edge source="f5" target="r7"/>
-        <edge source="f6" target="r8"/>
-        <edge source="f8" target="r7"/>
-        <edge source="f8" target="r9"/>
-        <edge source="f8" target="r10"/>
-
-
-        <edge source="n0" target="k2"/>
-        <edge source="n1" target="k2"/>
-        <edge source="n2" target="k3"/>
-        <edge source="n3" target="r5"/>
-        <edge source="n3" target="f4"/>
-        <edge source="n4" target="k6"/>
-        <edge source="f6" target="k5"/>
-        <edge source="n5" target="r7"/>
-        <edge source="n6" target="k8"/>
-        <edge source="n8" target="f7"/>
-        <edge source="k8" target="n9"/>
-        <edge source="n8" target="r10"/>
-    </graph>
+<!-- This file was written by the JAVA GraphML Library.-->
+<graphml xmlns="http://graphml.graphdrawing.org/xmlns/graphml"  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://graphml.graphdrawing.org/xmlns/graphml http://www.yworks.com/xml/schema/graphml/1.0/ygraphml.xsd" xmlns:y="http://www.yworks.com/xml/graphml">
+  <key id="d0" for="node" yfiles.type="nodegraphics"/>
+  <key id="d1" for="edge" yfiles.type="edgegraphics"/>
+  <graph id="G" edgedefault="directed">
+    <node id="n0">
+      <data key="d0" >
+        <y:ShapeNode>
+          <y:Geometry  x="-25.0" y="-15.0" width="50.0" height="30.0"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <node id="n1">
+      <data key="d0" >
+        <y:ShapeNode>
+          <y:Geometry  x="-41.5" y="262.0" width="83.0" height="76.0"/>
+        </y:ShapeNode>
+      </data>
+    </node>
+    <edge id="e0" source="n0" target="n1"/>
+  </graph>
 </graphml>

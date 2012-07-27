@@ -27,8 +27,31 @@ class VisualizerTests {
     }
 
     @Test
-    public void testVisualizingNodes() {
-        reader.inputGraph(new FileInputStream(new File("testdata/graph1.graphml")))
+    public void testForce1() {
+        reader.inputGraph(new FileInputStream(new File("testdata/visual_features.graphml")))
+        visualizer = new ForceDirectedLayout(g: graph, nodeLabel: "name")
+        new DisplayFrame(visualizer).setVisible(true)
+        def a = [] as List
+        while (1) {
+            ;
+        }
+    }
+
+    @Test
+    public void testForce2() {
+        reader.inputGraph(new FileInputStream(new File("testdata/miserables.graphml")))
+        visualizer = new ForceDirectedLayout(g: graph, nodeLabel: "name")
+        new DisplayFrame(visualizer).setVisible(true)
+        def a = [] as List
+        while (1) {
+            ;
+        }
+    }
+
+
+    @Test
+    public void testForce3() {
+        reader.inputGraph(new FileInputStream(new File("/home/ashwin/Downloads/2.graphml")))
         visualizer = new ForceDirectedLayout(g: graph, nodeLabel: "name")
         new DisplayFrame(visualizer).setVisible(true)
         def a = [] as List

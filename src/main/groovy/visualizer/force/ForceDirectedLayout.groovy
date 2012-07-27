@@ -87,7 +87,9 @@ class ForceDirectedLayout extends PApplet {
         }
 
         def c = 0
-        background(150, 203, 0)
+        background(100, 100, 0)
+        scale(0.5)
+        translate(width / 2, height / 2)
         values.each { VNode v ->
             c++
 
@@ -100,14 +102,14 @@ class ForceDirectedLayout extends PApplet {
             fill(1)
             ellipse(v.pos.x.toFloat(), v.pos.y.toFloat(), 20, 20);
             fill(250)
-            text(v.underlying.getProperty(nodeLabel), v.pos.x.toFloat(), v.pos.y.toFloat())
+            text(v.underlying?.getProperty(nodeLabel)?:v.underlying.getId(), v.pos.x.toFloat(), v.pos.y.toFloat())
             def inEdges = v.underlying.getInEdges([] as String[])
             inEdges.each { Edge e ->
                 def vertex = e.outVertex
                 VNode get = graph.vertices.get(vertex.getId())
                 def x = get.pos.x
                 def y = get.pos.y
-                stroke(126)
+                stroke(51)
                 line(x.toFloat(), y.toFloat(), v.pos.x.toFloat(), v.pos.y.toFloat())
                 writeText(x.toFloat(), y.toFloat(), v.pos.x.toFloat(), v.pos.y.toFloat(), e.label)
 
@@ -120,7 +122,7 @@ class ForceDirectedLayout extends PApplet {
                 VNode get = graph.vertices.get(vertex.getId())
                 def x = get.pos.x
                 def y = get.pos.y
-                stroke(255)
+                stroke(51)
                 line(x.toFloat(), y.toFloat(), v.pos.x.toFloat(), v.pos.y.toFloat())
                 writeText(x.toFloat(), y.toFloat(), v.pos.x.toFloat(), v.pos.y.toFloat(), e.label)
 

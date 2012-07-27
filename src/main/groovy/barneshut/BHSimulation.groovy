@@ -51,16 +51,25 @@ class BHSimulation extends PApplet {
     @Override
     public void draw() {
 
-        background(150, 203, 0)
+        background(100, 100, 0)
+        scale(0.5)
+        translate(width / 2, height / 2)
         tree.updateForces()
         tree.updatePositions(step)
         tree.getExternalNodeList().each {ExternalNode externalNode ->
             vgraph.vertices.put(externalNode.underlying.getId().toString(), externalNode)
             def x = externalNode.getLocation().getX().toFloat()
             def y = externalNode.getLocation().getY().toFloat()
-            stroke(126)
-            fill(126)
+            stroke(51)
+            fill(255, 0, 0)
             ellipse(x, y.toFloat(), 10, 10)
+            text(externalNode.underlying?.getId() ?: "", x, y)
+            Box box = externalNode.parent?.getBox()
+//            if (box){
+//                fill(0,0,0,0)
+//                rect(box.x1.toFloat(), box.y1.toFloat(), box.x2.toFloat(), box.y2.toFloat())
+//            }
+
         }
 
         //draw lines
@@ -72,7 +81,7 @@ class BHSimulation extends PApplet {
                 ExternalNode get = vgraph.vertices.get(vertex.getId())
                 def x = get.location.x
                 def y = get.location.y
-                stroke(126)
+                stroke(20)
                 line(x.toFloat(), y.toFloat(), v.location.x.toFloat(), v.location.y.toFloat())
 
 
@@ -84,7 +93,7 @@ class BHSimulation extends PApplet {
                 ExternalNode get = vgraph.vertices.get(vertex.getId())
                 def x = get.location.x
                 def y = get.location.y
-                stroke(255)
+                stroke(30)
                 line(x.toFloat(), y.toFloat(), v.location.x.toFloat(), v.location.y.toFloat())
 
 
